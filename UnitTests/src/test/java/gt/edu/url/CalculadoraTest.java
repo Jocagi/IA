@@ -8,49 +8,49 @@ public class CalculadoraTest
 {
     Calculadora calculadora;
 
-    @BeforeAll
-    public static void startup()
-    {
-        System.out.println("Inicializador global");
-    }
-
     @BeforeEach
     public void init()
     {
         calculadora = new Calculadora();
-        System.out.println("Inicializando test");
     }
 
     @Test
+    @DisplayName("Test Suma")
     public void probarSuma()
     {
-        System.out.println("Sumando...");
         assertEquals(25.0, calculadora.sumar(5.0, 20.0));
     }
 
     @Test
+    @Disabled
     public void probarResta()
     {
-        System.out.println("Restando...");
         assertEquals(30.0, calculadora.restar(50, 20.0));
     }
 
     @Test
     public void probarMultiplicacion()
     {
-        System.out.println("Multiplicando...");
         assertEquals(25.0, calculadora.multiplicar(5.0, 5.0));
     }
 
-    @AfterEach
-    public void shutdown()
+    @Test
+    public void probarDivision()
     {
-        System.out.println("Finalizando test");
+        assertThrows(ArithmeticException.class, () -> { var division = 100/0; });
     }
 
-    @AfterAll
-    public static void destroy()
+    @Test
+    @DisplayName("Prueba de la tabla del 5")
+    public void probarTabla5()
     {
-        System.out.println("Finalizacion global");
+        int[] numbers = {1,2,3,4,5};
+        assertAll("Tabla del 5",
+                () -> {assertEquals(5, calculadora.multiplicar(5, 1));},
+                () -> {assertEquals(10, calculadora.multiplicar(5, 2));},
+                () -> {assertEquals(15, calculadora.multiplicar(5, 3));},
+                () -> {assertEquals(20, calculadora.multiplicar(5, 4));},
+                () -> {assertEquals(25, calculadora.multiplicar(5, 5));}
+                );
     }
 }
